@@ -126,8 +126,9 @@ function buildLineGrey() {
         lineGrey.style.height = "50px";
         lineGrey.style.backgroundColor = "#f0f0f0";
         lineGrey.style.display = "flex";
+        lineGrey.style.alignItems = "center";
+        lineGrey.style.justifyContent = "start";
         let textGrey = document.createElement("text");
-            textGrey.style.textAlign = "left";
             textGrey.textContent = "WATCHES > BIG BANG > ALL";
             textGrey.style.paddingLeft = "20px";
             lineGrey.appendChild(textGrey);
@@ -577,14 +578,14 @@ function makeCart() {
   
     let iconCart = document.createElement("img");
     iconCart.src =
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Shopping_cart_icon.svg/2501px-Shopping_cart_icon.svg.png";
-    iconCart.style.height = "50px";
+      "./img/scard.svg";
+    iconCart.style.height = "40px";
     iconCart.style.margin = "auto";
     iconCart.id = "overlay";
     Object.assign(iconCart.style, {
       "align-items": "center",
       "background-color": "#fff",
-      border: "5px solid #000",
+      border: "none",
       "box-sizing": "border-box",
       color: "#000",
       cursor: "pointer",
