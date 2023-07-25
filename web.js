@@ -97,6 +97,7 @@ function buildNavbar() {
                 buttonUser.style.backgroundColor = "#fff";
                 buttonUser.style.display = "flex";
                 buttonUser.textContent = "HUBLOTISTA";
+
                 buttonUser.style.textAlign = "center";
                 buttonUser.style.fontWeight = "bold";
                 buttonUser.style.borderLeft = "0.1px solid #000";
@@ -124,6 +125,7 @@ function buildLineGrey() {
         lineGrey.style.width = "100%";
         lineGrey.style.height = "50px";
         lineGrey.style.backgroundColor = "#f0f0f0";
+        lineGrey.style.display = "flex";
         let textGrey = document.createElement("text");
             textGrey.style.textAlign = "left";
             textGrey.textContent = "WATCHES > BIG BANG > ALL";
@@ -166,7 +168,6 @@ function buildNameBody() {
     let nameBD = document.createElement("div");
         nameBD.style.display = "flex";
         nameBD.style.justifyContent = "center";
-        nameBD.style.paddingTop = "20px";
         nameBD.style.borderBottom = "0.1px solid black";
         let textName = document.createElement("text");
             textName.textContent = "BIG BANG";
@@ -231,8 +232,6 @@ function makeItem(){
             divBrand.appendChild(divWatch);
             itemList.appendChild(divBrand);  
         }
-
-
     return itemList;
 }
 let newItem = makeItem();
@@ -258,12 +257,12 @@ function buildItemCard(item){
     let itemDetails = document.createElement("div");
     itemDetails.style.padding = "5%";
   
-    let itemName = document.createElement("h2");
-    itemName.style.margin = 0;
-    itemName.innerHTML = nameBrand;
+    let itemNameBrand = document.createElement("h2");
+    itemNameBrand.style.margin = 0;
+    itemNameBrand.innerHTML = nameBrand;
   
-    let itemDescrip = document.createElement("p");
-    itemDescrip.innerHTML = name;
+    let itemName = document.createElement("p");
+    itemName.innerHTML = name;
   
     let itemPrice = document.createElement("p");
     itemPrice.style.fontWeight = "550";
@@ -312,8 +311,8 @@ function buildItemCard(item){
       addItemtoCart(item);
     });
   
+    itemDetails.appendChild(itemNameBrand);
     itemDetails.appendChild(itemName);
-    itemDetails.appendChild(itemDescrip);
     itemDetails.appendChild(itemPrice);
     itemDetails.appendChild(button);
   
@@ -344,3 +343,333 @@ function addItemtoCart(item) {
   console.log(cart);
 }
 
+//Làm cái giỏ
+function makeCart() {
+    let shoppingCart = document.createElement("div");
+    shoppingCart.style.display = "block";
+    shoppingCart.style.margin = "5%";
+    shoppingCart.style.padding = "0 5% 0 5%";
+    shoppingCart.style.textAlign = "center";
+  
+    let itemListInCart = document.createElement("div");
+    itemListInCart.style.display = "grid";
+    itemListInCart.style.gap = "1rem";
+    itemListInCart.style.gridTemplateColumns =
+      "repeat(auto-fit, minmax(400px, 1fr))";
+  
+    let overlay = document.createElement("div");
+    let allButtonInCart = document.createElement("span");
+    let closeButton = document.createElement("button");
+    let billButton = document.createElement("button");
+    let deleteButton = document.createElement("button");
+    let totalBox = document.createElement("h3");
+    let total = 0;
+    let newItemCart;
+  
+    Object.assign(overlay.style, {
+      position: "fixed",
+      display: "none",
+      width: "100%",
+      height: "100%",
+      top: "0",
+      left: "0",
+      right: "0",
+      bottom: "0",
+      margin: "auto",
+      "background-color": "rgba(0,0,0,0.5)",
+      "z-index": "2",
+    });
+    overlay.onclick = off();
+  
+    Object.assign(closeButton.style, {
+      "align-items": "center",
+      "background-color": "#fff",
+      border: "2px solid #000",
+      "box-sizing": "border-box",
+      color: "#000",
+      cursor: "pointer",
+      display: "inline-flex",
+      fill: "#000",
+      "font-family": "Inter,sans-serif",
+      "font-size": "16px",
+      "font-weight": "600",
+      height: "48px",
+      "justify-content": "center",
+      "letter-spacing": "-.8px",
+      "line-height": "24px",
+      "min-width": "140px",
+      outline: "0",
+      padding: "0 17px",
+      "text-align": "center",
+      "text-decoration": "none",
+      transition: "all .3s",
+      "user-select": "none",
+      "-webkit-user-select": "none",
+      "touch-action": "manipulation",
+      "min-width": "170px",
+      margin: "3%",
+    });
+  
+    Object.assign(billButton.style, {
+      "align-items": "center",
+      "background-color": "rgb(0 233 39)",
+      border: "2px solid #000",
+      "box-sizing": "border-box",
+      color: "#000",
+      cursor: "pointer",
+      display: "inline-flex",
+      fill: "rgb(0 233 39)",
+      "font-family": "Inter,sans-serif",
+      "font-size": "16px",
+      "font-weight": "600",
+      height: "48px",
+      "justify-content": "center",
+      "letter-spacing": "-.8px",
+      "line-height": "24px",
+      "min-width": "140px",
+      outline: "0",
+      padding: "0 17px",
+      "text-align": "center",
+      "text-decoration": "none",
+      transition: "all .3s",
+      "user-select": "none",
+      "-webkit-user-select": "none",
+      "touch-action": "manipulation",
+      "min-width": "170px",
+      margin: "3%",
+    });
+  
+    Object.assign(deleteButton.style, {
+      "align-items": "center",
+      "background-color": "rgb(255 63 63)",
+      border: "2px solid #000",
+      "box-sizing": "border-box",
+      color: "#000",
+      cursor: "pointer",
+      display: "inline-flex",
+      fill: "rgb(255 63 63)",
+      "font-family": "Inter,sans-serif",
+      "font-size": "16px",
+      "font-weight": "600",
+      height: "48px",
+      "justify-content": "center",
+      "letter-spacing": "-.8px",
+      "line-height": "24px",
+      "min-width": "140px",
+      outline: "0",
+      padding: "0 17px",
+      "text-align": "center",
+      "text-decoration": "none",
+      transition: "all .3s",
+      "user-select": "none",
+      "-webkit-user-select": "none",
+      "touch-action": "manipulation",
+      "min-width": "170px",
+      margin: "3%",
+    });
+  
+    Object.assign(totalBox.style, {
+      "align-items": "center",
+      "background-color": "#fff",
+      border: "2px solid #000",
+      "box-sizing": "border-box",
+      color: "#000",
+      display: "inline-flex",
+      fill: "#000",
+      "font-family": "Inter,sans-serif",
+      "font-size": "16px",
+      "font-weight": "600",
+      height: "48px",
+      "justify-content": "center",
+      "letter-spacing": "-.8px",
+      "line-height": "24px",
+      "min-width": "140px",
+      outline: "0",
+      padding: "0 17px",
+      "text-align": "center",
+      "text-decoration": "none",
+      transition: "all .3s",
+      "user-select": "none",
+      "-webkit-user-select": "none",
+      "touch-action": "manipulation",
+      "min-width": "170px",
+      margin: "3%",
+    });
+  
+    function on() {
+      overlay.style.display = "block";
+      closeButton.innerText = "Đóng Giỏ Hàng";
+      billButton.innerText = "Thanh Toán";
+      deleteButton.innerHTML = "Xóa Hết Đơn Hàng";
+  
+      deleteButton.addEventListener("mouseover", function () {
+        deleteButton.style.borderColor = "white";
+        deleteButton.style.color = "white";
+        deleteButton.style.fill = "white";
+      });
+      deleteButton.addEventListener("mouseout", function () {
+        deleteButton.style.borderColor = "#000";
+        deleteButton.style.color = "#000";
+        deleteButton.style.fill = "#000";
+      });
+      deleteButton.addEventListener("click", () => {
+        itemListInCart.innerHTML = "";
+        cart = [];
+        total = 0;
+        totalBox.innerText = `Tổng số tiền: ${total}`;
+      });
+  
+      billButton.addEventListener("mouseover", function () {
+        billButton.style.borderColor = "white";
+        billButton.style.color = "white";
+        billButton.style.fill = "white";
+      });
+      billButton.addEventListener("mouseout", function () {
+        billButton.style.borderColor = "#000";
+        billButton.style.color = "#000";
+        billButton.style.fill = "#000";
+      });
+      billButton.addEventListener("click", () => {
+        if (cart.length <= 0) {
+          alert(`Không có hàng để thanh toán`);
+        } else {
+          alert(`Đã thanh toán thành công`);
+        }
+      });
+  
+      closeButton.addEventListener("mouseover", function () {
+        closeButton.style.borderColor = "#40CF32";
+        closeButton.style.color = "#40CF32";
+        closeButton.style.fill = "#40CF32";
+      });
+      closeButton.addEventListener("mouseout", function () {
+        closeButton.style.borderColor = "#000";
+        closeButton.style.color = "#000";
+        closeButton.style.fill = "#000";
+      });
+      closeButton.addEventListener("click", () => {
+        overlay.style.display = "none";
+        itemListInCart.innerHTML = "";
+        total = 0;
+      });
+  
+      for (let i = 0; i < cart.length; i++) {
+        newItemCart = buildItemInCart(cart[i]);
+        total += cart[i].price * cart[i].quantity;
+        itemListInCart.appendChild(newItemCart);
+      }
+  
+      totalBox.innerText = `Tổng số tiền: ${total}tr VNĐ`;
+  
+      allButtonInCart.appendChild(deleteButton);
+      allButtonInCart.appendChild(billButton);
+      allButtonInCart.appendChild(totalBox);
+      allButtonInCart.appendChild(closeButton);
+  
+      overlay.appendChild(allButtonInCart);
+  
+      overlay.appendChild(itemListInCart);
+    }
+  
+    function off() {
+      overlay.style.display = "none";
+    }
+  
+    let iconCart = document.createElement("img");
+    iconCart.src =
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Shopping_cart_icon.svg/2501px-Shopping_cart_icon.svg.png";
+    iconCart.style.height = "50px";
+    iconCart.style.margin = "auto";
+    iconCart.id = "overlay";
+    Object.assign(iconCart.style, {
+      "align-items": "center",
+      "background-color": "#fff",
+      border: "5px solid #000",
+      "box-sizing": "border-box",
+      color: "#000",
+      cursor: "pointer",
+      display: "inline-flex",
+      fill: "#000",
+      outline: "0",
+      padding: "0 50px",
+      transition: "all .3s",
+      "user-select": "none",
+      "-webkit-user-select": "none",
+      "touch-action": "manipulation",
+    });
+    iconCart.addEventListener("mouseover", function () {
+      iconCart.style.borderColor = "#40CF32";
+      iconCart.style.color = "#40CF32";
+      iconCart.style.fill = "#40CF32";
+    });
+    iconCart.addEventListener("mouseout", function () {
+      iconCart.style.borderColor = "#000";
+      iconCart.style.color = "#000";
+      iconCart.style.fill = "#000";
+    });
+    iconCart.addEventListener("click", () => {
+      if (cart.length == 0) {
+        alert("Không có hàng trong giỏ");
+      } else {
+        overlay.onclick = on();
+      }
+    });
+  
+    shoppingCart.appendChild(iconCart);
+    shoppingCart.appendChild(overlay);
+    return shoppingCart;
+  }
+  let newCart = makeCart();
+  container.appendChild(newCart);
+  
+  //Xây dựng item card trong giỏ hàng
+  function buildItemInCart(item) {
+    let { id, name, nameBrand, price, imageURL, quantity } = item;
+  
+    let itemCard = document.createElement("div");
+    Object.assign(itemCard.style, {
+      background: "rgb( 245 245 245)",
+      "max-width": "400px",
+      width: "100%",
+      height: "100%",
+      margin: "auto",
+      "text-align": "left",
+      "font-family": "arial",
+      "font-size": "1rem",
+      display: "flex",
+      "align-items": "center",
+      "justify-content": "space-evenly",
+      "box-sizing": "border-box",
+    });
+  
+    let itemDetails = document.createElement("div");
+    itemDetails.style.padding = "5%";
+    itemDetails.style.maxWidth = "200px";
+  
+    let itemName = document.createElement("h2");
+    itemName.style.margin = 0;
+    itemName.innerHTML = name;
+  
+    let itemPrice = document.createElement("p");
+    itemPrice.style.fontWeight = "550";
+    itemPrice.innerHTML = price ;
+  
+    let itemQuantity = document.createElement("p");
+    itemQuantity.style.fontSize = "15px";
+    itemQuantity.innerHTML = `Số lượng: ${quantity}`;
+  
+    itemDetails.appendChild(itemName);
+    itemDetails.appendChild(itemPrice);
+    itemDetails.appendChild(itemQuantity);
+  
+    itemCard.appendChild(itemDetails);
+  
+    let itemPic = document.createElement("img");
+    itemPic.src = imageURL;
+    itemPic.alt = "Watch";
+    itemPic.style.width = "30%";
+    itemCard.appendChild(itemPic);
+  
+    return itemCard;
+  }
+  
