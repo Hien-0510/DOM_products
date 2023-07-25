@@ -125,6 +125,7 @@ function buildLineGrey() {
         lineGrey.style.height = "50px";
         lineGrey.style.backgroundColor = "#f0f0f0";
         let textGrey = document.createElement("text");
+            textGrey.style.textAlign = "left";
             textGrey.textContent = "WATCHES > BIG BANG > ALL";
             textGrey.style.paddingLeft = "20px";
             lineGrey.appendChild(textGrey);
@@ -181,6 +182,7 @@ container.appendChild(newNameBody);
 function makeItem(){
     let itemList = document.createElement("div");
         itemList.style.display = "flex";
+        itemList.style.flexDirection = "column";
         
         class Watch {
             /**
@@ -206,11 +208,30 @@ function makeItem(){
          */
 
         let listOfWatches = [...data];
+        let brands = ["CONNECTED", "UNICO"];
 
-            for (let i = 0; i < listOfWatches.length; i++) {
-                let newItemCard = buildItemCard(listOfWatches[i]);
-                itemList.appendChild(newItemCard);
-            }
+        for(let i = 0; i < brands.length; i++){
+            let brand = brands[i];
+            let divBrand = document.createElement("div");
+                divBrand.style.width = "100%";
+            let brandName = document.createElement("h2");
+                brandName.textContent = brand;
+                brandName.style.fontSize = "30px";
+            let divWatch = document.createElement("div");
+                divWatch.style.display = "grid";
+                divWatch.style.gap = "20px";
+                divWatch.style.gridTemplateColumns = "repeat(4, 1fr)";
+                for (let j = 0; j < listOfWatches.length; j++) {
+                    if (listOfWatches[j].brand == brand) {
+                    let newItemCard = buildItemCard(listOfWatches[j]);
+                    divWatch.appendChild(newItemCard);
+                    }
+                }
+            divBrand.appendChild(brandName);
+            divBrand.appendChild(divWatch);
+            itemList.appendChild(divBrand);  
+        }
+
 
     return itemList;
 }
@@ -218,12 +239,94 @@ let newItem = makeItem();
 container.appendChild(newItem);
 
 function buildItemCard(item){
-    let product = document.createElement("div");
+    let { id, name, nameBrand, price, imageURL } = item;
 
-    return product; 
-}
-let newItemCard = makeItemCard();
-container.appendChild(newItemCard);
+    let itemCard = document.createElement("div");
+    Object.assign(itemCard.style, {
+      background: "rgb( 245 245 245)",
+      "max-width": "500px",
+      width: "100%",
+      height: "100%",
+      margin: "auto",
+      "text-align": "left",
+      "font-family": "arial",
+      "font-size": "1rem",
+      display: "flex",
+      "align-items": "center",
+    });
+  
+    let itemDetails = document.createElement("div");
+    itemDetails.style.padding = "5%";
+  
+    let itemName = document.createElement("h2");
+    itemName.style.margin = 0;
+    itemName.innerHTML = nameBrand;
+  
+    let itemDescrip = document.createElement("p");
+    itemDescrip.innerHTML = name;
+  
+    let itemPrice = document.createElement("p");
+    itemPrice.style.fontWeight = "550";
+    itemPrice.innerHTML = price;
+  
+    let button = document.createElement("button");
+    button.innerText = "Thêm vào giỏ";
+    Object.assign(button.style, {
+      "align-items": "center",
+      "background-color": "#fff",
+      border: "2px solid #000",
+      "box-sizing": "border-box",
+      color: "#000",
+      cursor: "pointer",
+      display: "inline-flex",
+      fill: "#000",
+      "font-family": "Inter,sans-serif",
+      "font-size": "16px",
+      "font-weight": "600",
+      height: "48px",
+      "justify-content": "center",
+      "letter-spacing": "-.8px",
+      "line-height": "24px",
+      "min-width": "140px",
+      outline: "0",
+      padding: "0 17px",
+      "text-align": "center",
+      "text-decoration": "none",
+      transition: "all .3s",
+      "user-select": "none",
+      "-webkit-user-select": "none",
+      "touch-action": "manipulation",
+      "min-width": "170px",
+    });
+    button.addEventListener("mouseover", function () {
+      button.style.borderColor = "#40CF32";
+      button.style.color = "#40CF32";
+      button.style.fill = "#40CF32";
+    });
+    button.addEventListener("mouseout", function () {
+      button.style.borderColor = "#000";
+      button.style.color = "#000";
+      button.style.fill = "#000";
+    });
+    button.addEventListener("click", () => {
+      addItemtoCart(item);
+    });
+  
+    itemDetails.appendChild(itemName);
+    itemDetails.appendChild(itemDescrip);
+    itemDetails.appendChild(itemPrice);
+    itemDetails.appendChild(button);
+  
+    itemCard.appendChild(itemDetails);
+  
+    let itemPic = document.createElement("img");
+    itemPic.src = imageURL;
+    itemPic.alt = "Watch";
+    itemPic.style.width = "48%";
+    itemCard.appendChild(itemPic);
+  
+    return itemCard;
+  }
 
 let cart = [];
 function addItemtoCart(item) {
